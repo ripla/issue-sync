@@ -90,6 +90,11 @@ func UpdateComment(config cfg.Config, ghComment github.IssueComment, jComment ji
 	// 4 is the date, and 5 is the real body
 	fields := jCommentRegex.FindStringSubmatch(jComment.Body)
 
+	if len(fields) != 5 {
+		log.Debug("Failed to update JIRA comment for ", jIssue.ID)
+		return nil
+	}
+
 	if fields[5] == ghComment.GetBody() {
 		return nil
 	}
